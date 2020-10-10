@@ -8,7 +8,7 @@ import LoadMoreBtn from '../elements/LoadMoreBtn/LoadMoreBtn';
 import Spinner from '../elements/Spinner/Spinner';
 import './Home.css';
 
-const home = () => (
+const home = ( { movies, heroImage, loading, currentPage, totalPages, searchTerm, searchForMovies, renderMoreMovies }) => (
   <div className="rmdb-home">
     {heroImage ?
       <div>
@@ -17,7 +17,7 @@ const home = () => (
           title={heroImage.original_title}
           text={heroImage.overview}
         />
-        <SearchBar callback={this.searchItems}/>
+        <SearchBar callback={searchForMovies}/>
       </div> : null }
       <div className="rmdb-home-grid">
         <FourColGrid
@@ -36,7 +36,7 @@ const home = () => (
         </FourColGrid>
         {loading ? <Spinner /> : null}
         {(currentPage <= totalPages && !loading) ?
-          <LoadMoreBtn text="Load More" onClick={this.loadMoreItems} />
+          <LoadMoreBtn text="Load More" onClick={this.renderMoreMovies} />
           : null
         }
       </div>

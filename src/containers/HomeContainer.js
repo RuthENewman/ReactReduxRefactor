@@ -1,43 +1,60 @@
-class Home extends Component {
-  
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+    getPopularMovies,
+    showLoadingSpinner,
+    searchForMovies,
+    clearMovies,
+    renderMoreMovies
+} from '../actions';
+import Home from '../components/Home/Home';
+
+class HomeContainer extends Component {
     componentDidMount() {
-      if (sessionStorage.getItem('HomeState')) {
-        let state = JSON.parse(sessionStorage.getItem('HomeState'))
-        this.setState({ ...state })
-      } else {
-        this.setState({ loading: true })
-        this.fetchItems(endpoint);
-      }
+        this.getMovies();
     }
-  
-    searchItems = (searchTerm) => {
-      let endpoint = '';
-      this.setState({
-        movies: [],
-        loading: true,
-        searchTerm
-      })
-  
-      this.fetchItems(endpoint);
+
+    getMovies = () => {
+        this.props.showLoadingSpinner();
+        this.props.getPopularMovies();
     }
-  
-    loadMoreItems = () => {
-      // ES6 Destructuring the state
-      const { searchTerm, currentPage } = this.state;
-  
-      let endpoint = '';
-      this.setState({ loading: true })
-  
-      if (searchTerm === '') {
-        endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${currentPage + 1}`;
-      } else {
-        endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}&page=${currentPage + 1}`;
-      }
-      this.fetchItems(endpoint);
+
+    searchForMovies = (searchTerm) => {
+        this.props.clearMovies();
+        this.props.showLoadingSpinner();
+        this.props.searchForMovies(searchTerm);
     }
-  
-    fetchItems = (endpoint) => {
-      // ES6 Destructuring the state
-      const { movies, heroImage, searchTerm } = this.state;
+
+    renderMoreMovies = () => {
+        const { searchTerm, currentPage } = this.props;
+        this.props.showLoadingSpinner();
+        this.props.renderMoreMovies(searchTerm, currentPage);
+    }
+
+    render() {
+        return (
+            <Home 
+                { ...this.props }
+                searchForMovies={this.searchForMovies}
+                renderMoreMovies={this.renderMoreMovies}
+            />
+        )
     }
 }
+const mapStateToProps = state => {
+    return state.home;
+}
+
+const mapDispatchToProps = {
+    getPopularMovies,
+    showLoadingSpinner,
+    searchForMovies,
+    clearMovies,
+    renderMoreMovies   
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HomeContainer);
+
