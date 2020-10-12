@@ -49,7 +49,7 @@ export default function(state = defaultState, action) {
         case CLEAR_MOVIES:
             return {
                 ...state,
-                moves: []
+                movies: []
             }
         case SHOW_LOADING_SPINNER:
             return {

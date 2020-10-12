@@ -11,7 +11,7 @@ const Movie = ({ movie, directors, actors, loading }) => (
   <div className="rmdb-movie">
     {movie ?
     <div>
-      <Navigation movie={movieName} />
+      <Navigation movie={movie.original_title} />
       <MovieInfo movie={movie} directors={directors} />
       <MovieInfoBar time={movie.runtime} budget={movie.budget} revenue={movie.revenue} />
     </div>
