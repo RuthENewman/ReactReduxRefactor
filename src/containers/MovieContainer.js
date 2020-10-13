@@ -3,14 +3,30 @@ import { connect } from 'react-redux';
 import {
   getMovie,
   clearMovie,
-  showLoadingSpinner
+  showLoadingSpinner,
+  setMoviePersistedState
 } from '../actions';
 import Movie from '../components/Movie/Movie';
 
 class MovieContainer extends Component {
   componentDidMount() {
     const { movieId = this.props.match.params };
-    this.getMovie(movieId);
+
+    if (sessionStorage.getItem(`${movieId}`)) {
+      const movie = JSON.parse(sessionStorage.getItem(`${movieId}`));
+      this.props.setMoviePersistedState(movie);
+    }
+    this.props.getMovie(movieId);
+  }
+
+  componentDidUpdate() {
+    const { movieId } = this.props.match.params;
+    const { movie, actors, directors } = this.props;
+
+    if (this.props.movie) {
+      const persistedMovieState = { movie, actors, directors};
+      sessionStorage.setItem(`${movieId}`, JSON.stringify(persistedMovieState));
+    }
   }
 
   getMovie = (movieId) => {
@@ -38,7 +54,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getMovie,
   clearMovie,
-  showLoadingSpinner
+  showLoadingSpinner,
+  setMoviePersistedState
 };
 
 export default connect(
