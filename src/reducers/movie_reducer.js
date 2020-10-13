@@ -2,7 +2,8 @@
 import {
     SHOW_LOADING_SPINNER,
     CLEAR_MOVIE,
-    GET_MOVIE
+    GET_MOVIE,
+    SET_MOVIE_PERSISTED_STATE
 } from '../actions';
 
 const defaultState = {
@@ -22,7 +23,7 @@ export default function(state = defaultState, action) {
                 directors: action.payload.directors,
                 loading: false
             }
-        case CLEAR_MOVE:
+        case CLEAR_MOVIE:
             return {
                 ...state,
                 movie: null,
@@ -33,6 +34,11 @@ export default function(state = defaultState, action) {
             return {
                 ...state,
                 loading: true
+            }
+        case SET_MOVIE_PERSISTED_STATE:
+            return {
+                ...state,
+                ...action.payload
             }
         default:
             return state;

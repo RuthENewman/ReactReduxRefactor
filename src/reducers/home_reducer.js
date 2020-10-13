@@ -5,7 +5,8 @@ import {
     CLEAR_MOVIES,
     SEARCH_FOR_MOVIES,
     GET_POPULAR_MOVIES,
-    RENDER_MORE_MOVIES
+    RENDER_MORE_MOVIES,
+    SET_POPULAR_PERSISTED_STATE
 } from '../actions';
 
 const defaultState = {
@@ -55,6 +56,11 @@ export default function(state = defaultState, action) {
             return {
                 ...state,
                 loading: true
+            }
+        case SET_POPUALAR_PERSISTED_STATE:
+            return {
+                ...state,
+                ...action.payload
             }
         default:
             return state;
