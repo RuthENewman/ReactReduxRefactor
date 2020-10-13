@@ -5,10 +5,12 @@ export const GET_POPULAR_MOVIES = 'GET_POPULAR_MOVIES';
 export const SEARCH_FOR_MOVIES = 'SEARCH_FOR_MOVIES';
 export const RENDER_MORE_MOVIES = 'RENDER_MORE_MOVIES';
 export const CLEAR_MOVIES = 'CLEAR_MOVIES';
+export const SET_POPULAR_PERSISTED_STATE = 'SET_POPULAR_PERSISTED_STATE';
 
 // Action types for Movie
 export const GET_MOVIE = 'GET_MOVIE';
 export const CLEAR_MOVIE = 'CLEAR_MOVIE';
+export const SET_MOVIE_PERSISTED_STATE = 'SET_MOVIE_PERSISTED_STATE';
 
 // Action types for both Home and Movie 
 export const SHOW_LOADING_SPINNER = 'SHOW_LOADING_SPINNER';
@@ -79,6 +81,13 @@ export function clearMovies() {
     }
 }
 
+export function setPopularPersistedState(state) {
+    return {
+      type: SET_POPULAR_PERSISTED_STATE,
+      payload: state
+    }
+}
+
 // Action creators for movie
 export function clearMovie() {
     return {
@@ -122,6 +131,13 @@ export function getMovie(movieId) {
         payload: request
     }
   }
+
+export function setMoviePersistedState(state) {
+  return {
+    type: SET_MOVIE_PERSISTED_STATE,
+    payload: state
+  }
+}
 
 // Action creator for both 
 
